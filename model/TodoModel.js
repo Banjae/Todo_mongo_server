@@ -4,7 +4,7 @@ const todoSchema = new mongoose.Schema(
   {
     id: Number,
     title: String,
-    completd: Boolean,
+    completed: Boolean,
   },
   { collection: "todos" }
 );
