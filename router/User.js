@@ -22,7 +22,7 @@ router.post("/register", (req, res) => {
 
 // 이름 중복검사
 router.post("/namecheck", (req, res) => {
-  console.log(req.body.displayName);
+  // console.log(req.body.displayName);
   User.findOne({ displayName: req.body.displayName })
     .exec()
     .then((doc) => {
@@ -31,6 +31,27 @@ router.post("/namecheck", (req, res) => {
         check = false;
       }
       res.status(200).json({ success: true, check });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ success: false });
+    });
+});
+
+// 사용자 정보 업데이트
+router.post("/update", (req, res) => {
+  let temp = {
+    email: req.body.email,
+    displayName: req.body.displayName,
+    uid: req.body.uid,
+  };
+  console.log(temp);
+
+  User.updateOne({ uid: req.body.uid }, { $set: temp })
+    .exec()
+    .then(() => {
+      console.log("사용자 업데이트 완료");
+      res.status(200).json({ success: true });
     })
     .catch((err) => {
       console.log(err);
